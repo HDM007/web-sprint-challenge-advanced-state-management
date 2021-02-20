@@ -1,11 +1,50 @@
+import { FETCH_SMURFS, FETCH_SUCCESS, FETCH_FAIL, ADD_SMURF } from '../actions';
+
 
 export const initialState = {
+    smurfs: [],
+    isLoading: false,
+    error: null
 }
 
-const reducer = ()=>{
+const reducer = (state = initialState, action)=>{
+    switch(action.type){
+        case FETCH_SMURFS:
+            return{
+                ...state,
+                isLoading: true,
+                error: ''
+            }
+
+        case FETCH_SUCCESS:
+            return{
+            ...state,
+            isLoading: false,
+            error: '',
+            smurfs: action.payload
+        };
+
+        case FETCH_FAIL:
+            return{
+                ...state,
+                error: 'Nope, no thank you, that is an error'
+            };
+
+            /***** I decided to combine our error message function into the full fetchSmurfs action thunk for simplicity. *****/
+
+        case ADD_SMURF:
+            return{
+            ...state,
+            smurfs: [...state.smurfs, action.payload]
+        }
+
+        default:
+            return state;
+    }
 }
 
 export default reducer;
+
 
 //Task List:
 //1. Adds the following state values into the initialState:
